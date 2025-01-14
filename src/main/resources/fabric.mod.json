@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "plunder",
+  "version": "${version}",
+  "name": "Plunder",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/plunder/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.bridging.plunder.Plunder"
+    ]
+  },
+  "mixins": [
+    "plunder.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
