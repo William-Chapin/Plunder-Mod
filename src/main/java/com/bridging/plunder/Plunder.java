@@ -1,29 +1,17 @@
 package com.bridging.plunder;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.minecraft.server.level.ServerEntity;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import java.util.Map;
 
 public class Plunder implements ModInitializer {
+
+    private Map<String, Double> dropOddsMap;
 
     @Override
     public void onInitialize() {
         System.out.println("[Plunder v1.1] - Plunder has started.");
-        registerLivingEntityHurtEvent();
+        EventHandler eventHandler = new EventHandler();
+        eventHandler.registerAll();
     }
 
-    private void registerLivingEntityHurtEvent() {
-        ServerTickEvents.END_SERVER_TICK.register(server ->{
-            server.getPlayerList().getPlayers().forEach(player -> {
-                if (player.hurtMarked){
-                    System.out.println("DAMAGE TAKEN");
-                }
-            });
-        });
-    }
 }
