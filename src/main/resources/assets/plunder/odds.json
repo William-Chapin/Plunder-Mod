@@ -1,0 +1,12 @@
+{
+  "dropOdds": [
+    {
+      "item": "birch_wood",
+      "chance": 0.1
+    },
+    {
+      "item": "birch_log",
+      "chance": 1
+    }
+  ]
+}

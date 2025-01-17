@@ -2,46 +2,48 @@ package com.bridging.plunder;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class DropManager
 {
-    public void dropFrom(Entity entity, float damageTaken){
-        ServerPlayer player = (ServerPlayer) entity;
-        List<ItemStack> items = new ArrayList<>();
-        player.getInventory().items.forEach(itemStack -> {
-            if ((itemStack.is(Items.AIR)) || (itemStack.isEmpty()))  { return; }
-            // 10% chance to add to drop list
-            if (Math.random() < 0.5){
-                items.add(itemStack);
-            }
-        });
-        items.forEach(itemStack -> {
-            System.out.println("Dropping: " + itemStack.getItem());
-            player.getInventory().removeItem(itemStack);
-            CreativeModeTab creativeTab = getCreativeTab(itemStack);
-            System.out.println("Creative Tab: " + creativeTab);
-//            double[] scatter = getScatter();
-            player.drop(itemStack, true, false);
-        });
+    private final Configuration configuration;
+    private final DropOdds dropOdds;
+
+    public DropManager(Configuration configuration, DropOdds dropOdds){
+        this.configuration = configuration;
+        this.dropOdds = dropOdds;
     }
 
-    public static CreativeModeTab getCreativeTab(ItemStack itemStack) {
-        for (CreativeModeTab tab : CreativeModeTabs.allTabs()) {
-            Collection<ItemStack> displayItems = tab.getDisplayItems();
-            for (ItemStack displayItem : displayItems) {
-                if (ItemStack.isSameItem(itemStack, displayItem)) {
-                    return tab;
-                }
+    public void dropFrom(Entity entity, float damageTaken){
+        ServerPlayer player = (ServerPlayer) entity;
+        List<ItemStack> toDrop = new ArrayList<>();
+
+        // loop inventory and determine what blocks to drop
+        player.getInventory().items.forEach(itemStack -> {
+            if ((itemStack.is(Items.AIR)) || (itemStack.isEmpty()))  { return; }
+
+            // get the drop chance from the odds.json  (ADD DEFAULT ODDS)
+            String itemName = itemStack.getItem().toString();
+            itemName = itemName.substring(itemName.indexOf(":") + 1);
+            double dropChance = dropOdds.getDropChance(itemName).orElse(0.0);
+            System.out.println("Drop chance: " + dropChance);
+            if (Math.random() < dropChance){
+                toDrop.add(itemStack);
             }
-        }
-        return null;
+        });
+
+        // drop all the items
+        toDrop.forEach(itemStack -> {
+            player.getInventory().removeItem(itemStack);
+            // remove cooldown for picking up
+            ItemEntity itemEntity = player.drop(itemStack, true, false);
+            int pickUpTime = Integer.parseInt(configuration.getProperty("pickUpTime"));
+            itemEntity.setPickUpDelay(pickUpTime);
+        });
     }
 }

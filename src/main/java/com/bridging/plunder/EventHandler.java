@@ -7,9 +7,11 @@ public class EventHandler
 {
 
     private final DropManager dropManager;
+    private final DropOdds dropOdds;
 
-    public EventHandler(){
-        this.dropManager = new DropManager();
+    public EventHandler(Configuration configuration, DropOdds dropOdds){
+        this.dropManager = new DropManager(configuration, dropOdds);
+        this.dropOdds = dropOdds;
     }
 
     public void registerAll() {

@@ -10,7 +10,10 @@ public class Plunder implements ModInitializer {
     @Override
     public void onInitialize() {
         System.out.println("[Plunder v1.1] - Plunder has started.");
-        EventHandler eventHandler = new EventHandler();
+
+        Configuration configuration = new Configuration();
+        DropOdds dropOdds = new DropOdds();
+        EventHandler eventHandler = new EventHandler(configuration, dropOdds);
         eventHandler.registerAll();
     }
 
