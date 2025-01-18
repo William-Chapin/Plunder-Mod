@@ -3,7 +3,7 @@
   "id": "plunder",
   "version": "${version}",
   "name": "Plunder",
-  "description": "",
+  "description": "A mod that adds a way to steal items from other players.",
   "authors": [],
   "contact": {},
   "license": "All-Rights-Reserved",

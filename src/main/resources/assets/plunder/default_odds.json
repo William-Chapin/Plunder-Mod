@@ -1,0 +1,20 @@
+{
+  "dropOdds": [
+    {
+      "item": "diamond",
+      "chance": 0.05
+    },
+    {
+      "item": "netherite_ingot",
+      "chance": 0
+    },
+    {
+      "item": "stone",
+      "chance": 0.1
+    },
+    {
+      "item": "gold_ingot",
+      "chance": 0
+    }
+  ]
+}
