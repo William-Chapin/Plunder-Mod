@@ -16,7 +16,7 @@ Whenever a player takes damage, whether from PVP or from natural causes (configu
 
 ## Usage/Download
 
-Download the mod on the Modrinth website (**currently pending**) and put it in your servers mod folder.
+Download the mod on the Modrinth website (**currently pending, so download from Github releases!!!**) and put it in your servers mod folder.
 
 To create custom odds for any item, navigate to the `/mods/plunder/odds.json` file. To create a custom drop chance, replace the "item" with the Minecraft item ID of your desired item, and replace the chance with your desired drop chance (0.1 being 10%).
 ```json
